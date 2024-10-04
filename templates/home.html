@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Event Registration Form</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+    <style>
+        body {
+            background: linear-gradient(135deg, #aaf8e9, #ACB6E5);
+            font-family: 'Arial', sans-serif;
+            min-height: 100vh;
+            /* Ensure this is only min-height */
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            /* Changed from center to flex-start */
+            overflow: auto;
+            /* Ensure scrolling is enabled */
+        }
+
+
+        .container {
+            background-color: #fff;
+            padding: 30px;
+            margin-top: 50px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            border-radius: 10px;
+            max-width: 700px;
+            width: 100%;
+            transform: translateY(-50px);
+            opacity: 0;
+            animation: fadeInUp 0.5s forwards;
+        }
+
+        @keyframes fadeInUp {
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        h2 {
+            font-size: 32px;
+            font-weight: 700;
+            color: #007bff;
+            text-align: center;
+            margin-bottom: 20px;
+            transition: color 0.3s ease;
+        }
+
+        h2:hover {
+            color: #0056b3;
+        }
+
+        label {
+            font-weight: 600;
+            color: #343a40;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+            border: 1px solid #e3e6f0;
+            padding: 15px;
+            border-radius: 5px;
+            transition: box-shadow 0.3s ease;
+        }
+
+        .form-group:hover {
+            box-shadow: 0 0 10px rgba(0, 123, 255, 0.5);
+        }
+
+        .form-control {
+            border-radius: 4px;
+            border: 1px solid #ced4da;
+            transition: box-shadow 0.3s ease, border-color 0.3s ease;
+        }
+
+        .form-control:focus {
+            box-shadow: 0 0 8px rgba(0, 123, 255, 0.5);
+            border-color: #007bff;
+        }
+
+        .btn-primary {
+            background-color: #007bff;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            font-size: 16px;
+            transition: background-color 0.3s ease, transform 0.3s ease;
+        }
+
+        .btn-primary:hover {
+            background-color: #0056b3;
+            transform: translateY(-2px);
+        }
+
+        fieldset {
+            border: 1px solid #e3e6f0;
+            padding: 15px;
+            border-radius: 5px;
+            margin-bottom: 20px;
+            transition: background-color 0.3s ease;
+        }
+
+        fieldset:hover {
+            background-color: #f8f9fa;
+        }
+
+        fieldset legend {
+            font-size: 18px;
+            color: #007bff;
+        }
+
+        .btn-link {
+            color: #007bff;
+            padding-left: 0;
+            transition: color 0.3s ease;
+        }
+
+        .btn-link:hover {
+            text-decoration: underline;
+            color: #0056b3;
+        }
+
+        input[type="checkbox"] {
+            margin-right: 10px;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 20px;
+                margin-top: 30px;
+            }
+
+            h2 {
+                font-size: 28px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="container">
+        <h2 class="my-4">Event Registration Form</h2>
+        <form method="post" action="{% url 'register' %}">
+            {% csrf_token %}
+
+            <!-- Participant Details -->
+            <div class="form-group">
+                <label for="id_name">Your Name</label>
+                <input type="text" class="form-control" id="id_name" name="name" placeholder="Enter your name" required>
+            </div>
+
+            <!-- College -->
+            <div class="form-group">
+                <label for="id_college">College</label>
+                <input type="text" class="form-control" id="id_college" name="college" placeholder="Enter your college"
+                    required>
+            </div>
+
+            <!-- Department -->
+            <div class="form-group">
+                <label for="id_dept">Department</label>
+                <input type="text" class="form-control" id="id_dept" name="dept" placeholder="Enter your department"
+                    required>
+            </div>
+
+            <!-- Phone -->
+            <div class="form-group">
+                <label for="id_phone">Phone</label>
+                <input type="tel" class="form-control" id="id_phone" name="phone" placeholder="Enter your phone number"
+                    required>
+            </div>
+
+            <!-- Email -->
+            <div class="form-group">
+                <label for="id_email">Email</label>
+                <input type="email" class="form-control" id="id_email" name="email" placeholder="Enter your email"
+                    required>
+            </div>
+
+            <!-- Technical Events -->
+            <fieldset class="form-group">
+                <legend>Technical Events</legend>
+                <div>
+                    <input type="checkbox" id="paper_presentation" name="technical_events" value="paper_presentation">
+                    <label for="paper_presentation">Paper Presentation</label>
+                </div>
+                <div>
+                    <input type="checkbox" id="technical_quiz" name="technical_events" value="technical_quiz">
+                    <label for="technical_quiz">Technical Quiz</label>
+                </div>
+                <div>
+                    <input type="checkbox" id="debugging" name="technical_events" value="debugging">
+                    <label for="debugging">Debugging</label>
+                </div>
+            </fieldset>
+
+            <!-- Non-Technical Events -->
+            <fieldset class="form-group">
+                <legend>Non-Technical Events</legend>
+                <div>
+                    <input type="checkbox" id="figma_ui_ux" name="non_technical_events" value="figma_ui_ux">
+                    <label for="figma_ui_ux">Figma (UI/UX)</label>
+                </div>
+                <div>
+                    <input type="checkbox" id="current_affairs" name="non_technical_events" value="current_affairs">
+                    <label for="current_affairs">Current Affairs</label>
+                </div>
+            </fieldset>
+
+            <!-- Paper Title -->
+            <div class="form-group">
+                <label for="id_paper_title">Paper Title</label>
+                <input type="text" class="form-control" id="id_paper_title" name="paper_title"
+                    placeholder="Enter paper title">
+            </div>
+
+            <!-- Paper Abstract Submission Link -->
+            <div class="form-group">
+                <label>Paper Abstract Submission Link (Dropbox)</label>
+                <div>
+                    <a href="https://www.dropbox.com/request/paper_abstract_submission" target="_blank"
+                        class="btn btn-link">Click here to upload</a>
+                </div>
+                <p class="text-muted">Once uploaded, please copy the link and paste it in the field below:</p>
+                <input type="url" class="form-control" id="id_abstract_link" name="abstract_link"
+                    placeholder="Paste Dropbox link here">
+            </div>
+
+            <!-- Payment QR Code Image -->
+            <div class="form-group">
+                <label>Payment QR Code</label>
+                <div class="payment-qr">
+                    <img src="{% static 'images/gpay-image.jpg' %}" alt="Payment QR Code" style="max-width: 200px;">
+                </div>
+            </div>
+
+            <!-- Payment Submission Link -->
+            <div class="form-group">
+                <label>Payment Submission Link (Dropbox)</label>
+                <div>
+                    <a href="https://www.dropbox.com/request/AM5u9cfltAKI4UPEEvEi" target="_blank"
+                        class="btn btn-link">Click here to upload</a>
+                </div>
+                <p class="text-muted">Once uploaded, please copy the link and paste it in the field below:</p>
+                <input type="url" class="form-control" id="id_payment_link" name="payment_link"
+                    placeholder="Paste Dropbox link here" required>
+            </div>
+
+            <!-- Transaction Number -->
+            <div class="form-group">
+                <label for="id_transaction_num">Transaction Number</label>
+                <input type="text" class="form-control" id="id_transaction_num" name="transaction_num"
+                    placeholder="Enter the transactionnumber" required>
+            </div>
+
+            <!-- Hardcoded WhatsApp Group Link -->
+            <div class="form-group">
+                <label>WhatsApp Group Link</label>
+                <div>
+                    <a href="https://chat.whatsapp.com/samplehardcodedlink123" target="_blank" class="btn btn-link">Join
+                        WhatsApp Group</a>
+                </div>
+            </div>
+
+            <button type="submit" class="btn btn-primary btn-block">Register</button>
+        </form>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+</body>
+
+</html>
