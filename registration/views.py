@@ -20,7 +20,7 @@ def register(request):
         technical_events = request.POST.getlist('technical_events')
         non_technical_events = request.POST.getlist('non_technical_event')
 
-        # Create a new Registration instance
+                # Create a new Registration instance
         registration = Registration(
             name=name,
             college=college,
@@ -31,7 +31,9 @@ def register(request):
             transaction_number=transaction_number,
             phone=request.POST.get('phone'),
             email=request.POST.get('email'),
+            food_preference=request.POST.get('food_preference'),  # Add food preference here
         )
+
 
         # Generate member_id
         count = Registration.objects.count() + 1

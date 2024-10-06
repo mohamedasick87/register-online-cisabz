@@ -15,6 +15,8 @@ class Event(models.Model):
 
 
 # Registration model to capture participant registration details
+from django.db import models
+
 class Registration(models.Model):
     # Participant Details
     member_id = models.CharField(max_length=20, null=True, blank=True)  # Unique member ID (Optional)
@@ -28,6 +30,13 @@ class Registration(models.Model):
     paper_title = models.CharField(max_length=255, null=True, blank=True)  # Paper title (Optional)
     paper_abstract = models.TextField(null=True, blank=True)  # Paper abstract (Optional)
 
+    # Food Preference
+    FOOD_PREFERENCE_CHOICES = [
+        ('Vegetarian', 'Vegetarian'),
+        ('Non-Vegetarian', 'Non-Vegetarian'),
+    ]
+    food_preference = models.CharField(max_length=20, choices=FOOD_PREFERENCE_CHOICES, null=True, blank=True)  # Food preference (Optional)
+
     # Event Participation
     technical_events = models.ManyToManyField(Event, related_name='technical_registrations', blank=True)  # Technical events (Optional)
     non_technical_events = models.ManyToManyField(Event, related_name='non_technical_registrations', blank=True)  # Non-technical events (Optional)
@@ -38,3 +47,4 @@ class Registration(models.Model):
 
     def __str__(self):
         return f'{self.name} ({self.college})'
+
