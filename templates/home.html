@@ -13,15 +13,11 @@
             background: linear-gradient(135deg, #aaf8e9, #ACB6E5);
             font-family: 'Arial', sans-serif;
             min-height: 100vh;
-            /* Ensure this is only min-height */
             display: flex;
             justify-content: center;
             align-items: flex-start;
-            /* Changed from center to flex-start */
             overflow: auto;
-            /* Ensure scrolling is enabled */
         }
-
 
         .container {
             background-color: #fff;
@@ -228,9 +224,8 @@
                     <a href="https://www.dropbox.com/request/XGFN84A9L0A983cdEgIn" target="_blank"
                         class="btn btn-link">Click here to upload</a>
                 </div>
-                <p class="text-muted">Once uploaded, type submmited</p>
-                <input type="text" class="form-control" id="id_abstract_link" name="abstract_link"
-                    >
+                <p class="text-muted">Once uploaded, type "submitted".</p>
+                <input type="text" class="form-control" id="id_abstract_link" name="abstract_link">
             </div>
 
             <!-- Payment QR Code Image -->
@@ -248,34 +243,30 @@
                     <a href="https://www.dropbox.com/request/AM5u9cfltAKI4UPEEvEi" target="_blank"
                         class="btn btn-link">Click here to upload</a>
                 </div>
-                <p class="text-muted">Once uploaded, type submmited</p>
-                <input type="text" class="form-control" id="id_payment_link" name="payment_link"
-                     required>
+                <p class="text-muted">Once uploaded, type "submitted".</p>
+                <input type="text" class="form-control" id="id_payment_link" name="payment_link" required>
             </div>
 
             <!-- Transaction Number -->
             <div class="form-group">
                 <label for="id_transaction_num">Transaction Number</label>
                 <input type="text" class="form-control" id="id_transaction_num" name="transaction_num"
-                    placeholder="Enter the transactionnumber" required>
+                    placeholder="Enter the transaction number" required>
             </div>
 
             <!-- Hardcoded WhatsApp Group Link -->
             <div class="form-group">
                 <label>WhatsApp Group Link</label>
                 <div>
-                    <a href="https://chat.whatsapp.com/samplehardcodedlink123" target="_blank" class="btn btn-link">Join
-                        WhatsApp Group</a>
+                    <a href="https://chat.whatsapp.com/yourgroup" target="_blank" class="btn btn-link">Join WhatsApp Group</a>
                 </div>
             </div>
 
-            <button type="submit" class="btn btn-primary btn-block">Register</button>
+            <!-- Submit Button -->
+            <button type="submit" class="btn btn-primary">Register</button>
         </form>
     </div>
 
-    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
 </body>
 
 </html>
