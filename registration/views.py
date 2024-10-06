@@ -18,7 +18,7 @@ def register(request):
         payment_link = request.POST.get('payment_link')
         transaction_number = request.POST.get('transaction_num')
         technical_events = request.POST.getlist('technical_events')
-        non_technical_events = request.POST.getlist('non_technical_events')
+        non_technical_events = request.POST.getlist('non_technical_event')
 
         # Create a new Registration instance
         registration = Registration(
