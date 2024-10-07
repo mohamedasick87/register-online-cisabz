@@ -47,4 +47,11 @@ class Registration(models.Model):
 
     def __str__(self):
         return f'{self.name} ({self.college})'
+    
+class RegistrationStatus(models.Model):
+    is_open = models.BooleanField(default=True)
+
+    def __str__(self):
+        return "Registration Open" if self.is_open else "Registration Closed"
+
 

@@ -2,7 +2,7 @@ from django.contrib import admin
 from import_export import resources, fields
 from import_export.admin import ExportMixin
 from import_export.widgets import ManyToManyWidget
-from .models import Registration, Event
+from .models import Registration, Event, RegistrationStatus
 
 # Custom filter for technical events
 class TechnicalEventFilter(admin.SimpleListFilter):
@@ -75,7 +75,12 @@ class RegistrationAdmin(ExportMixin, admin.ModelAdmin):
 
     # Use filter_horizontal to make selecting many-to-many fields easier in forms
     filter_horizontal = ('technical_events', 'non_technical_events')
-
+    
+@admin.register(RegistrationStatus)
+class RegistrationStatusAdmin(admin.ModelAdmin):
+    list_display = ('is_open',)  # Display the is_open field in the admin list view
+    list_filter = ('is_open',)    # Add a filter option for is_open
+    search_fields = ('is_open',) 
 # Register the models and the admin classes
 admin.site.register(Event)
 admin.site.register(Registration, RegistrationAdmin)

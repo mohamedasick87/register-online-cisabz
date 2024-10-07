@@ -1,12 +1,20 @@
 from django.shortcuts import render,redirect
-from app.models import Registration, Event
+from app.models import Registration, Event, RegistrationStatus
 from django.http import HttpResponse
 from django.core.mail import send_mail
 from django.template.loader import render_to_string
 from django.utils.html import strip_tags
 
 def HOME(request):
-    return render(request,'home.html')
+    # Get the current registration status
+    registration_status = RegistrationStatus.objects.first()  # Assuming only one instance
+
+    if registration_status and not registration_status.is_open:
+        return render(request, 'closed.html')
+    
+    return render(request, 'home.html')
+
+
 def register(request):
     if request.method == 'POST':
         # Extract individual records from the form
