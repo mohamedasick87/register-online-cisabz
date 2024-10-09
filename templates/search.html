@@ -88,6 +88,10 @@
                         <th>Non-Technical Events</th>
                         <td>{{ registration.non_technical_events.all|join:", " }}</td>
                     </tr>
+                    <tr>
+                        <th>Payment Mode</th>
+                        <td>{{ registration.payment_mode }}</td> <!-- Display payment mode -->
+                    </tr>
                 </tbody>
             </table>
         {% elif registration is not None %}

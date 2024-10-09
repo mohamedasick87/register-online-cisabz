@@ -169,6 +169,7 @@
                 font-size: 28px;
             }
         }
+        
     </style>
 </head>
 
@@ -182,7 +183,7 @@
         <!-- Symposium Details Card -->
         <div class="symposium-card">
             <h3 class="text-center">Symposium Details</h3>
-            <img src="{% static 'images/event-poster.jpg' %}" alt="Event Poster" class="img-fluid mb-3">
+            <img src="{% static 'images/poster-v2.jpg' %}" alt="Event Poster" class="img-fluid mb-3">
             <p><strong>Registration Fee:</strong> ₹200 per person</p>
             <p><strong>Event Date:</strong> 25th October 2025</p>
             <p><strong>Email:</strong> <a href="mailto:cisabz2k24@gmail.com">cisabz2k24@gmail.com</a></p>
@@ -240,9 +241,8 @@
                     <label for="non_veg">Non-Vegetarian</label>
                 </div>
             </div>
-
-            <!-- Technical Events -->
-            <fieldset class="form-group">
+             <!-- Technical Events -->
+             <fieldset class="form-group">
                 <legend>Technical Events (Select 2)</legend>
                 <div>
                     <input type="checkbox" id="paper_presentation" name="technical_events" value="paper_presentation">
@@ -291,31 +291,45 @@
                 <input type="text" class="form-control" id="id_abstract_link" name="abstract_link">
             </div>
 
-            <!-- Payment QR Code Image -->
+            <!-- Payment Mode -->
             <div class="form-group">
-                <label>Payment QR Code</label>
-                <div class="payment-qr">
-                    <img src="{% static 'images/gpay-image-v2.jpg' %}" alt="Payment QR Code" style="max-width: 200px;">
-                </div>
-            </div>
-
-            <!-- Payment Submission Link -->
-            <div class="form-group">
-                <label>Payment Submission Link (Dropbox)</label>
+                <label>Payment Mode</label>
                 <div>
-                    <a href="https://www.dropbox.com/request/9QPlRcdlHNfHapijxXP1" target="_blank" class="btn btn-link">Click here to upload</a>
+                    <input type="radio" id="payment_online" name="payment_mode" value="Online" required checked>
+                    <label for="payment_online">Online</label>
                 </div>
-                <p class="text-muted">Once uploaded, type "submitted".</p>
-                <input type="text" class="form-control" id="id_payment_link" name="payment_link" required>
+                <div>
+                    <input type="radio" id="payment_offline" name="payment_mode" value="Offline">
+                    <label for="payment_offline">Offline</label>
+                </div>
             </div>
 
-            <!-- Transaction Number -->
-            <div class="form-group">
-                <label for="id_transaction_number">Transaction Number</label>
-                <input type="text" class="form-control" id="id_transaction_number" name="transaction_number" placeholder="Enter transaction number" required>
+            <div id="payment-details">
+                <!-- Payment QR Code Image -->
+                <div class="form-group">
+                    <label>Payment QR Code</label>
+                    <div class="payment-qr">
+                        <img src="{% static 'images/gpay-image-v2.jpg' %}" alt="Payment QR Code" style="max-width: 200px;">
+                    </div>
+                </div>
+
+                <!-- Payment Submission Link -->
+                <div class="form-group">
+                    <label>Payment Submission Link (Dropbox)</label>
+                    <div>
+                        <a href="https://www.dropbox.com/request/9QPlRcdlHNfHapijxXP1" target="_blank" class="btn btn-link">Click here to upload</a>
+                    </div>
+                    <p class="text-muted">Once uploaded, type "submitted".</p>
+                    <input type="text" class="form-control" id="id_payment_link" name="payment_link">
+                </div>
+
+                <!-- Transaction Number -->
+                <div class="form-group">
+                    <label for="id_transaction_number">Transaction Number</label>
+                    <input type="text" class="form-control" id="id_transaction_number" name="transaction_number" placeholder="Enter transaction number">
+                </div>
             </div>
 
-            <!-- Hardcoded WhatsApp Group Link -->
             <div class="form-group">
                 <label>WhatsApp Group Link</label>
                 <div>
@@ -323,10 +337,10 @@
                 </div>
             </div>
 
-            <!-- Submit Button -->
-            <button type="submit" class="btn btn-primary">Register</button>
+            <button type="submit" class="btn btn-primary btn-block">Register</button>
         </form>
-        <footer class="text-center">
+
+        <footer class="text-center mt-4">
             <div class="social-icons">
                 <a href="https://www.instagram.com/intern_iq_" target="_blank"><i class="fab fa-instagram"></i></a>
                 <a href="https://www.interniq.live" target="_blank"><i class="fas fa-globe"></i></a>
@@ -335,17 +349,14 @@
             <p>Design by internIQ Team.</p>
             <p>CISABZ-2024 | All Rights Reserved.</p>
         </footer>
-        
-        <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js"></script>
-        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
-        
     </div>
 
     <script>
         document.addEventListener('DOMContentLoaded', function () {
             const technicalCheckboxes = document.querySelectorAll('input[name="technical_events"]');
             const nonTechnicalCheckboxes = document.querySelectorAll('input[name="non_technical_event"]');
+            const paymentModeRadios = document.querySelectorAll('input[name="payment_mode"]');
+            const paymentDetailsDiv = document.getElementById('payment-details');
 
             // Limit selection of technical events to 2
             technicalCheckboxes.forEach(checkbox => {
@@ -371,11 +382,26 @@
                     }
                 });
             });
+
+            // Handle payment mode toggle
+            paymentModeRadios.forEach(radio => {
+                radio.addEventListener('change', () => {
+                    if (document.getElementById('payment_online').checked) {
+                        paymentDetailsDiv.style.display = 'block';
+                    } else {
+                        paymentDetailsDiv.style.display = 'none';
+                    }
+                });
+            });
+
+            // Initialize visibility based on default selection
+            if (document.getElementById('payment_online').checked) {
+                paymentDetailsDiv.style.display = 'block';
+            } else {
+                paymentDetailsDiv.style.display = 'none';
+            }
         });
     </script>
-    <!-- Footer -->
- 
-
 </body>
 
 </html>

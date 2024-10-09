@@ -10,7 +10,6 @@ class TechnicalEventFilter(admin.SimpleListFilter):
     parameter_name = 'technical_events'
 
     def lookups(self, request, model_admin):
-        # Filter only technical events
         technical_events = Event.objects.filter(event_type='technical')
         return [(event.id, event.name) for event in technical_events]
 
@@ -25,7 +24,6 @@ class NonTechnicalEventFilter(admin.SimpleListFilter):
     parameter_name = 'non_technical_events'
 
     def lookups(self, request, model_admin):
-        # Filter only non-technical events
         non_technical_events = Event.objects.filter(event_type='non_technical')
         return [(event.id, event.name) for event in non_technical_events]
 
@@ -36,7 +34,6 @@ class NonTechnicalEventFilter(admin.SimpleListFilter):
 
 # Define the import-export resource for the Registration model
 class RegistrationResource(resources.ModelResource):
-    # Export technical and non-technical events as comma-separated values
     technical_events = fields.Field(
         column_name='technical_events',
         attribute='technical_events',
@@ -47,25 +44,29 @@ class RegistrationResource(resources.ModelResource):
         attribute='non_technical_events',
         widget=ManyToManyWidget(Event, field='name')
     )
+    payment_mode = fields.Field(
+        column_name='payment_mode',
+        attribute='payment_mode'  # Add payment_mode here
+    )
 
     class Meta:
         model = Registration
         fields = (
             'id', 'member_id', 'name', 'college', 'department', 'phone', 'email', 
             'paper_title', 'paper_abstract', 'technical_events', 'non_technical_events', 
-            'payment_link', 'transaction_number'
-        )  # Specify the fields you want to include in the export
+            'payment_mode', 'payment_link', 'transaction_number'
+        )
         export_order = (
             'id', 'member_id', 'name', 'college', 'department', 'phone', 'email', 
             'paper_title', 'paper_abstract', 'technical_events', 'non_technical_events', 
-            'payment_link', 'transaction_number'
-        )  # Control the order of fields in the export
+            'payment_mode', 'payment_link', 'transaction_number'
+        )
 
 class RegistrationAdmin(ExportMixin, admin.ModelAdmin):
     resource_class = RegistrationResource
     
     # Specify fields to display in the list view
-    list_display = ('name', 'college', 'department', 'email', 'phone')
+    list_display = ('name', 'college', 'department', 'email', 'phone', 'payment_mode')  # Include payment_mode
     
     # Add custom filters for technical and non-technical events
     list_filter = (TechnicalEventFilter, NonTechnicalEventFilter)
@@ -75,12 +76,13 @@ class RegistrationAdmin(ExportMixin, admin.ModelAdmin):
 
     # Use filter_horizontal to make selecting many-to-many fields easier in forms
     filter_horizontal = ('technical_events', 'non_technical_events')
-    
+
 @admin.register(RegistrationStatus)
 class RegistrationStatusAdmin(admin.ModelAdmin):
     list_display = ('is_open',)  # Display the is_open field in the admin list view
     list_filter = ('is_open',)    # Add a filter option for is_open
-    search_fields = ('is_open',) 
+    search_fields = ('is_open',)
+
 # Register the models and the admin classes
 admin.site.register(Event)
 admin.site.register(Registration, RegistrationAdmin)

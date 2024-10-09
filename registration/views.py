@@ -23,25 +23,26 @@ def register(request):
         department = request.POST.get('dept')
         paper_title = request.POST.get('paper_title')
         paper_abstract = request.POST.get('paper_abstract')
-        payment_link = request.POST.get('payment_link')
-        transaction_number = request.POST.get('transaction_num')
+        payment_mode = request.POST.get('payment_mode')  # New payment mode field
+        payment_link = request.POST.get('payment_link') if payment_mode == 'Online' else None
+        transaction_number = request.POST.get('transaction_number') if payment_mode == 'Online' else None
         technical_events = request.POST.getlist('technical_events')
         non_technical_events = request.POST.getlist('non_technical_event')
 
-                # Create a new Registration instance
+        # Create a new Registration instance
         registration = Registration(
             name=name,
             college=college,
             department=department,
             paper_title=paper_title,
             paper_abstract=paper_abstract,
+            payment_mode=payment_mode,
             payment_link=payment_link,
             transaction_number=transaction_number,
             phone=request.POST.get('phone'),
             email=request.POST.get('email'),
-            food_preference=request.POST.get('food_preference'),  # Add food preference here
+            food_preference=request.POST.get('food_preference'),
         )
-
 
         # Generate member_id
         count = Registration.objects.count() + 1
@@ -57,8 +58,8 @@ def register(request):
         for event_name in non_technical_events:
             event_instance, created = Event.objects.get_or_create(name=event_name, event_type='non_technical')
             registration.non_technical_events.add(event_instance)
-        
-         # Prepare email content
+
+        # Prepare email content
         subject = 'CISABZ\'24 Symposium Registration Successful'
 
         html_message = render_to_string('email-sending.html', {
@@ -69,6 +70,7 @@ def register(request):
             'technical_events': technical_events,
             'non_technical_events': non_technical_events,
             'member_id': registration.member_id,
+            'payment_mode': payment_mode,  # Include payment mode in email
         })
         plain_message = strip_tags(html_message)
         from_email = 'cisabz2k24@gmail.com'
@@ -82,6 +84,7 @@ def register(request):
 
     # If not POST, return the registration form
     return render(request, 'home.html')
+
 
 def search_registration(request):
     if request.method == 'POST':
